@@ -21,8 +21,8 @@ class bagofdevouring(object):
 			weight = np.r_[self.weight[:i],self.weight[(i+1):(n-1)]]
 			print '\nweight: ',weight, len(weight)
 			pDevour = [weight[idx]/(sum(weight)+100.0) for idx in range(0,len(weight))]
-			pDevour.append(sum(pDevour))
-			print 'pDevour: ',pDevour
+			pDevour.append(1-sum(pDevour))
+#			print 'pDevour: ',pDevour
 			return [(1.0-pDevour[idx]) for idx in range(0,len(pDevour))]
 	
 	def ExpYield(self,idx,n):
@@ -30,10 +30,10 @@ class bagofdevouring(object):
 			ps = self.CalcPSurvive(idx,n-1)
 			print 'ps: ',ps
 			one_dev = [ps[idx]*self.ExpYield(idx,n-1) for idx in range(0,len(ps)-1)]
-			none_dev = ps[-1]*self.ExpYield(n-2,n-1)
-			one_dev.append(none_dev)
-			print 'one_dev: ',one_dev
-			tbr = self.values[idx]+max(one_dev)
+#			none_dev = ps[-1]*self.ExpYield(n-2,n-1)
+#			one_dev.append(none_dev)
+#			print 'one_dev: ',one_dev
+			tbr = self.values[idx]+max([ps[idx]*self.ExpYield(idx,n-1) for idx in range(0,len(ps))])
 			print 'return: ',tbr
 			return tbr 
 		else:
